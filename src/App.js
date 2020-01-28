@@ -6,7 +6,7 @@ const App = () => {
   const [user, setUser] = useState({})
   const [messages, setMessages] = useState([])
   const [newMessages, setNewMessages] = useState([])
-  console.log(messages)
+  // console.log(messages)
   console.log(newMessages)
   const createMessage = () => {
     fetch(`${process.env["REACT_APP_URL"]}/messages`, {
@@ -25,9 +25,12 @@ const App = () => {
     // .then(newMessage => setNewMessages([...newMessages, newMessage]))
   }
 
-  const addMessage = (message) => {
-    setNewMessages([...newMessages, message])
-  }
+  // const addMessage = (message) => {
+  //   // console.log(newMessages)
+  //   // debugger
+  //   // setNewMessages([...newMessages, message])
+  //   setNewMessages(newMessages => [...newMessages, message])
+  // }
   useEffect(() => {
     fetch(`${process.env["REACT_APP_URL"]}/login`, {
       method: "POST",
@@ -47,16 +50,19 @@ const App = () => {
       setMessages(userData.user.data.attributes.received_messages)
     })
 
-  }, [newMessages])
+  }, [])
+
   return (
     <div className="App">
       <button onClick={createMessage}>Create Message</button>
+      <button onClick={() => console.log(newMessages)}>Check new messages</button>
       <ActionCableConsumer
           channel={{ channel: 'FeedChannel' }}
           onReceived={message => {
             console.log(message);
-            // this.addTweet(tweet)
-            addMessage(message)
+            // addMessage(message)
+            // setNewMessages([...newMessages,message])
+            setNewMessages(newMessages => [...newMessages, message])
           }}
         />
     </div>
