@@ -47,7 +47,7 @@ const App = () => {
       setMessages(userData.user.data.attributes.received_messages)
     })
 
-  }, [])
+  }, [newMessages])
   return (
     <div className="App">
       <button onClick={createMessage}>Create Message</button>
